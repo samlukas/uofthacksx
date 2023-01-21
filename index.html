@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page Title</title>
 <link rel="stylesheet" href="style.css">
-<script src="{{url_for('static', filename='script.js')}}"></script>
+<script src="js.js"></script>
 <script src="https://kit.fontawesome.com/012c424a63.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
@@ -21,18 +21,36 @@
 
 <form action="{{ url_for("post_info")}}" method="post" id="message">
     <input type="text" id="msg" placeholder="Enter a message">
+    <input type="text" id="username" hidden>
     <input type="submit" hidden>
 </form>
 
 <button class="button" onclick="openPopup()"><i class="fa-solid fa-plus fa-2xl"></i></button>
+<button class="button2" onclick="openPopupp()"><i class="fa-regular fa-user fa-xl"></i></i></button>
+
+<div class="popupp" id="popupp">
+    <h1>Choose a Color</h1>
+    <button class="button1" onclick="openPopupp()">Cancel</button>
+    <button class="button1" id="confirm" onclick="openPopupp()">Confirm</button>
+    <button class="color" id="color1"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color2"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color3"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color4"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color5"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color6"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color7"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color8"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color9"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color10"><i class="fa-solid fa-check fa-2xl"></i></button>
+</div>
 
 <div class="popup" id="popup">
-    <h1>Start a new discussion</h1>
+    <h1>Start a New Discussion</h1>
     <form>
         <textarea id="prompt" rows="4" cols="5" placeholder="What's the topic?"></textarea>
-        <input type="submit" id="confirm" onclick="closePopup()">
+        <input type="submit" id="confirm" onclick="openPopup()">
     </form>
-    <button class="button1" onclick="closePopup()">Cancel</button>
+    <button class="button1" onclick="openPopup()">Cancel</button>
 </div>
 
 </body>

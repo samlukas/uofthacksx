@@ -1,8 +1,9 @@
 function openPopup(){
-    popup.classList.remove("closepopup");
-    popup.classList.add("openpopup");
+    popupp.classList.remove("openpopup")
+    popup.classList.toggle("openpopup");
 }
 
-function closePopup(){
-    popup.classList.add("closepopup");
+function openPopupp(){
+    popup.classList.remove("openpopup")
+    popupp.classList.toggle("openpopup");
 }
