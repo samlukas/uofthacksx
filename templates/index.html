@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} UOFT HACKS X {% endblock %}</h1>
+<div class="left">
+</div>
+
+<div class="right">
+</div>
+    
+<form action="/post_info" method="POST" id="message">
+    <input type="text" id="msg" placeholder="Enter a message">
+    <input type="submit" hidden>
+</form>
+
+<button class="button"><i class="fa-solid fa-plus fa-2xl"></i></button>
+
 
 {% endblock %}
