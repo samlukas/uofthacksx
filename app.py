@@ -12,7 +12,7 @@ def index():
 
 
 def messageReceived(methods=['GET', 'POST']):
-    print('message was received!!!')
+    print('Message was received')
 
 
 @socketio.on('my event')
