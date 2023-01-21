@@ -38,6 +38,25 @@ input[type=text] {
     border: 2px solid gray;
   }
 
+textarea {
+    font-size: 20px;
+    color: white;
+    background-color: #222;
+    width: 565px;
+    height: 200px;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    padding-left: 25px;
+    left: 36.7vw;
+    bottom: 550px;
+    z-index: 2;
+    position: fixed;
+    border-radius: 25px;
+    border: 2px solid gray;
+    font-family: sans-serif;
+    resize: none;
+}
+
 .button{
     color: gray;
     left: 33px;
@@ -54,4 +73,48 @@ input[type=text] {
 .button:hover{
     background-color: gray;
     color: white;
+}
+
+.popup{
+    width: 600px;
+    height: 400px;
+    background-color: #222;
+    position: absolute;
+    z-index: 3;
+    bottom: 46vh;
+    left: 35vw;
+    padding-left: 35px;
+    padding-top: 10px;
+    /* visibility: hidden; */
+}
+
+.openpopup{
+    visibility: visible;
+}
+
+.closepopup{
+    visibility: hidden;
+}
+
+h1{
+    color: white;
+    font-family: sans-serif;
+}
+
+input[type=submit]{
+    color: gray;
+    left: 53vw;
+    width: 250px;
+    z-index: 2;
+    position: fixed;
+    background-color: #333;
+    bottom: 49.5vh;
+    border-radius: 25px;
+    border: 2px solid gray;
+    padding: 15px 11px;
+    cursor: pointer;
+}
+
+#popup{
+    border-radius: 25px;
 }
