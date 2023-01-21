@@ -15,6 +15,7 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on( 'connect', function() {
+      alert("ur a bitch");
       socket.emit( 'my event', {
         data: 'User Connected'
       } )
@@ -30,9 +31,16 @@
       } )
     } )
     socket.on( 'my response', function( msg ) {
+      alert(msg.message);
       console.log( msg )
       if( typeof msg.user_name !== 'undefined' ) {
         $( 'h3' ).remove()
+        if (msg.message=='Toxic') {
+          alert( "error" );
+        }
+        else {
+          alert("pass");
+        }
         $( 'div.message_holder' ).append( '<div class="box" id="box">'+msg.message+'</div>' )
       }
     })
