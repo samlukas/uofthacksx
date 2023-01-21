@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Title</title>
+<link rel="stylesheet" href="stylesheet.css">
+<script src="https://kit.fontawesome.com/012c424a63.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="left">
+    <h1>test1</h1>
+</div>
+
+<div class="right">
+
+</div>
+
+<form action="{{ url_for("post_info")}}" method="post" id="message">
+    <input type="text" id="msg" placeholder="Enter a message">
+    <input type="submit" hidden>
+</form>
+
+<button class="button"><i class="fa-solid fa-plus fa-2xl"></i></button>
+
+</body>
+</html>
