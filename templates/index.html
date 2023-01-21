@@ -30,9 +30,16 @@
       } )
     } )
     socket.on( 'my response', function( msg ) {
+      alert(msg.message);
       console.log( msg )
       if( typeof msg.user_name !== 'undefined' ) {
         $( 'h3' ).remove()
+        if (msg.message=='Toxic') {
+          alert( "error" );
+        }
+        else {
+          alert("pass");
+        }
         $( 'div.message_holder' ).append( '<div class="box" id="box">'+msg.message+'</div>' )
       }
     })
