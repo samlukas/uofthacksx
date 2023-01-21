@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Title</title>
+<link rel="stylesheet" href="style.css">
+<script src="js.js"></script>
+<script src="https://kit.fontawesome.com/012c424a63.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="left">
+    <h1>test1</h1>
+</div>
+
+<div class="right">
+
+</div>
+
+<form action="{{ url_for("post_info")}}" method="post" id="message">
+    <input type="text" id="msg" placeholder="Enter a message">
+    <input type="submit" hidden>
+</form>
+
+<button class="button" onclick="openPopup()"><i class="fa-solid fa-plus fa-2xl"></i></button>
+
+<div class="popup" id="popup">
+    <h1>Start a new discussion</h1>
+    <form>
+        <textarea id="prompt" rows="4" cols="5" placeholder="What's the topic?"></textarea>
+        <input type="submit" id="confirm" onclick="closePopup()">
+    </form>
+    <button class="button1" onclick="closePopup()">Cancel</button>
+</div>
+
+</body>
+</html>
