@@ -85,7 +85,7 @@ textarea {
     left: 35vw;
     padding-left: 35px;
     padding-top: 10px;
-    /* visibility: hidden; */
+    visibility: hidden;
 }
 
 .openpopup{
@@ -101,18 +101,44 @@ h1{
     font-family: sans-serif;
 }
 
-input[type=submit]{
-    color: gray;
-    left: 53vw;
-    width: 250px;
+.button1{
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    left: 37vw;
+    width: 260px;
     z-index: 2;
     position: fixed;
-    background-color: #333;
+    background-color: #222;
     bottom: 49.5vh;
     border-radius: 25px;
-    border: 2px solid gray;
+    border: 2px solid rgb(160, 77, 77);
     padding: 15px 11px;
     cursor: pointer;
+}
+
+.button1:hover{
+    color: white;
+    background-color: rgb(160, 77, 77);
+}
+
+#confirm{
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    left: 52.5vw;
+    width: 260px;
+    z-index: 2;
+    position: fixed;
+    background-color: #222;
+    bottom: 49.5vh;
+    border-radius: 25px;
+    border: 2px solid green;
+    padding: 15px 11px;
+    cursor: pointer;
+}
+
+#confirm:hover{
+    color: white;
+    background-color: green;
 }
 
 #popup{
