@@ -1,48 +1,58 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Title</title>
+    <link rel="stylesheet" href="../static/stylesheet.css">
+    <script src="../static/script.js"></script>
+    <script src="https://kit.fontawesome.com/012c424a63.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+</head>
+<body>
 
-{% block content %}
+<div class="left">
+    <h1>Mass Debater</h1>
+</div>
 
-  <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
-  <div class="message_holder"></div>
+<div class="right">
+    <h3 style='color: #ccc;font-size: 30px;font-family: sans-serif;'>No message yet..</h3>
+</div>
 
-  <form action="" method="POST">
-    <input type="text" class="username" placeholder="User Name"/>
-    <input type="text" class="message" placeholder="Messages"/>
-    <input type="submit"/>
-  </form>
+<form action="" method="POST" id="message">
+    <input type="text" class="message" placeholder="Enter a message">
+    <input type="text" class="username" id="username" hidden>
+    <input type="submit" hidden>
+</form>
 
-  <script type="text/javascript">
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
+<button class="button" onclick="openPopup()"><i class="fa-solid fa-plus fa-2xl"></i></button>
+<button class="button2" onclick="openPopupp()"><i class="fa-regular fa-user fa-xl"></i></i></button>
 
-    socket.on( 'connect', function() {
-      socket.emit( 'my event', {
-        data: 'User Connected'
-      } )
-      var form = $( 'form' ).on( 'submit', function( e ) {
-        e.preventDefault()
-        let user_name = $( 'input.username' ).val()
-        let user_input = $( 'input.message' ).val()
-        socket.emit( 'my event', {
-          user_name : user_name,
-          message : user_input
-        } )
-        $( 'input.message' ).val( '' ).focus()
-      } )
-    } )
-    socket.on( 'my response', function( msg ) {
-      alert(msg.message);
-      console.log( msg )
-      if( typeof msg.user_name !== 'undefined' ) {
-        $( 'h3' ).remove()
-        if (msg.message=='Toxic') {
-          alert( "error" );
-        }
-        else {
-          alert("pass");
-        }
-        $( 'div.message_holder' ).append( '<div class="box" id="box">'+msg.message+'</div>' )
-      }
-    })
-  </script>
+<div class="popupp" id="popupp">
+    <h1>Choose a Color</h1>
+    <button class="button1" onclick="openPopupp();noChange()">Cancel</button>
+    <button class="button1" id="confirm" onclick="openPopupp()">Confirm</button>
+    <button class="color" id="color1" onclick="btn(1)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color2" onclick="btn(2)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color3" onclick="btn(3)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color4" onclick="btn(4)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color5" onclick="btn(5)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color6" onclick="btn(6)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color7" onclick="btn(7)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color8" onclick="btn(8)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color9" onclick="btn(9)"><i class="fa-solid fa-check fa-2xl"></i></button>
+    <button class="color" id="color10" onclick="btn(10)"><i class="fa-solid fa-check fa-2xl"></i></button>
+</div>
 
-{% endblock %}
+<div class="popup" id="popup">
+    <h1>Start a New Discussion</h1>
+    <form>
+        <textarea id="prompt" rows="4" cols="5" placeholder="What's the topic?"></textarea>
+        <input type="submit" id="confirm" onclick="openPopup()">
+    </form>
+    <button class="button1" onclick="openPopup()">Cancel</button>
+</div>
+
+</body>
+</html>
