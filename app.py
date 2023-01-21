@@ -18,13 +18,16 @@ examples = [
   Example("I will honestly kill you", "Toxic"),  
   Example("yo how are you", "Benign"),  
   Example("I'm curious, how did that happen", "Benign"),  
-  Example("Try that again", "Benign"),  
+  Example("Try that again", "Benign"),  #10
   Example("Hello everyone, excited to be here", "Benign"), 
   Example("I think I saw it first", "Benign"),  
   Example("That is an interesting point", "Benign"), 
   Example("I love this", "Benign"), 
   Example("We should try that sometime", "Benign"), 
-  Example("You should go for it", "Benign")
+  Example("You should go for it", "Benign"),
+  Example("Bitch", "Toxic"),
+  Example("Not that bad", "Benign"),
+  Example("Aren't that bad", "Benign")
 ]
 
 app = Flask(__name__)

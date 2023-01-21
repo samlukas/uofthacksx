@@ -11,9 +11,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 </head>
 <body>
+<script>
+var socket = io.connect('http://' + document.domain + ':' + location.port);
 
+socket.on( 'connect', function() {
+  socket.emit( 'my event', {
+    data: 'User Connected'
+  } )
+  var form = $( 'form' ).on( 'submit', function( e ) {
+    e.preventDefault()
+    let user_name = $( 'input.username' ).val()
+    let user_input = $( 'input.message' ).val()
+    socket.emit( 'my event', {
+      user_name : user_name,
+      message : user_input
+    } )
+    $( 'input.message' ).val( '' ).focus()
+  } )
+} )
+
+socket.on( 'my response', function( msg ) {
+  alert(msg.message);
+  console.log( msg );
+  if( typeof msg.user_name !== 'undefined' ) {
+    $( 'h3' ).remove()
+    if (msg.message=='Toxic') {
+      alert( "error" );
+    } else {
+      alert("pass");
+    }
+    $( 'div.right' ).append( '<div class="box" id="box">'+msg.message+'</div>' )
+  }
+})
+</script>
 <div class="left">
-    <h1>Mass Debater</h1>
+    <h1>Large Mass Debater</h1>
 </div>
 
 <div class="right">
@@ -22,7 +54,7 @@
 
 <form action="" method="POST" id="message">
     <input type="text" class="message" placeholder="Enter a message">
-    <input type="text" class="username" id="username" hidden>
+    <input type="text" class="username" id="username" value="0" hidden>
     <input type="submit" hidden>
 </form>
 
