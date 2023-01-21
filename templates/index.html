@@ -15,7 +15,6 @@
     var socket = io.connect('http://' + document.domain + ':' + location.port);
 
     socket.on( 'connect', function() {
-      alert("ur a bitch");
       socket.emit( 'my event', {
         data: 'User Connected'
       } )
