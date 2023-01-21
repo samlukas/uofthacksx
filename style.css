@@ -1,0 +1,146 @@
+.left{
+    padding-left: 30px;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    position: fixed;
+    left: 0;
+    width: 20%;
+    height: 100vh;
+    background-color: #222;
+}
+
+.right{
+    padding-left: 30px;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    position: fixed;
+    left: 20%;
+    width: 80%;
+    height: 100vh;
+    background-color: #333;
+}
+
+input[type=text] {
+    font-size: 16px;
+    color: white;
+    background-color: #222;
+    width: 70%;
+    padding: 15px 15px;
+    box-sizing: border-box;
+    padding-left: 30px;
+    left: 25%;
+    bottom: 33px;
+    z-index: 2;
+    position: fixed;
+    border-radius: 25px;
+    border: 2px solid gray;
+  }
+
+textarea {
+    font-size: 20px;
+    color: white;
+    background-color: #222;
+    width: 565px;
+    height: 200px;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    padding-left: 25px;
+    left: 36.7vw;
+    bottom: 550px;
+    z-index: 2;
+    position: fixed;
+    border-radius: 25px;
+    border: 2px solid gray;
+    font-family: sans-serif;
+    resize: none;
+}
+
+.button{
+    color: gray;
+    left: 33px;
+    z-index: 2;
+    position: fixed;
+    background-color: #333;
+    bottom: 33px;
+    border-radius: 25px;
+    border: 2px solid gray;
+    padding: 15px 11px;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: gray;
+    color: white;
+}
+
+.popup{
+    width: 600px;
+    height: 400px;
+    background-color: #222;
+    position: absolute;
+    z-index: 3;
+    bottom: 46vh;
+    left: 35vw;
+    padding-left: 35px;
+    padding-top: 10px;
+    visibility: hidden;
+}
+
+.openpopup{
+    visibility: visible;
+}
+
+.closepopup{
+    visibility: hidden;
+}
+
+h1{
+    color: white;
+    font-family: sans-serif;
+}
+
+.button1{
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    left: 37vw;
+    width: 260px;
+    z-index: 2;
+    position: fixed;
+    background-color: #222;
+    bottom: 49.5vh;
+    border-radius: 25px;
+    border: 2px solid rgb(160, 77, 77);
+    padding: 15px 11px;
+    cursor: pointer;
+}
+
+.button1:hover{
+    color: white;
+    background-color: rgb(160, 77, 77);
+}
+
+#confirm{
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    left: 52.5vw;
+    width: 260px;
+    z-index: 2;
+    position: fixed;
+    background-color: #222;
+    bottom: 49.5vh;
+    border-radius: 25px;
+    border: 2px solid green;
+    padding: 15px 11px;
+    cursor: pointer;
+}
+
+#confirm:hover{
+    color: white;
+    background-color: green;
+}
+
+#popup{
+    border-radius: 25px;
+}
