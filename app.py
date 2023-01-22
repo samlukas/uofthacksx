@@ -63,7 +63,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
     if 'data' in json:
         pass
     elif is_toxic(json['message']) is True:
-        socketio.emit('my response', {'message': 'Toxic'}, callback=messageError)
+        socketio.emit('my response', {'user_name':'-1','message': 'Toxic'}, callback=messageError)
     else:
         socketio.emit('my response', json, callback=messageReceived)
 

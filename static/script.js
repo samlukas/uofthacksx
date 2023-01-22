@@ -23,19 +23,6 @@ function noChange(){
     document.getElementById("username").value = 0;
 }
 
-var colors = ['#222222','#b3595e','#83b2c9','#b3725f','#608aa0','#b58961','#5c589b','#609358','#8a5b9f','#69afa5','#9d526c'];
-
-function whereBox(){
-  if (msg.user_name == document.getElementById("username").value){
-    box.classList.remove("boxright")
-    box.classList.add("boxleft")
-  } else {
-    box.classList.remove("boxleft")
-    box.classList.add("boxright")
-  }
-  document.getElementById("box").style.borderColor = colors[msg.user_name];
-}
-
 // var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 // socket.on( 'connect', function() {

@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Title</title>
     <link rel="stylesheet" href="../static/stylesheet.css">
+    <link rel="shortcut icon" href="#" />
     <script src="../static/script.js"></script>
+    <link href="https://fonts.cdnfonts.com/css/monaco" rel="stylesheet">
     <script src="https://kit.fontawesome.com/012c424a63.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 </head>
 <body>
 <script>
+var colors = ['#222222','#b3595e','#83b2c9','#b3725f','#608aa0','#b58961','#5c589b','#609358','#8a5b9f','#69afa5','#9d526c'];
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 socket.on( 'connect', function() {
@@ -20,11 +23,7 @@ socket.on( 'connect', function() {
   } )
   var form = $( 'form' ).on( 'submit', function( e ) {
     e.preventDefault()
-    if ('input.username' === undefined){
-      let user_name = 0
-    } else {
-      let user_name = $( 'input.username' ).val()
-    }
+    let user_name = $( 'input.username' ).val()
     let user_input = $( 'input.message' ).val()
     socket.emit( 'my event', {
       user_name : user_name,
@@ -35,17 +34,25 @@ socket.on( 'connect', function() {
 } )
 
 socket.on( 'my response', function( msg ) {
-  alert(msg.message);
-  console.log( msg );
   if( typeof msg.user_name !== 'undefined' ) {
     $( 'h3' ).remove()
     if (msg.message=='Toxic') {
-      alert( "error" );
+      alert("error");
     } else {
       alert("pass");
+      var col = colors[msg.user_name];
+      if(col == undefined){
+        col = "#222222"
+      }
+      var len = msg.message.length+"ch";
+      if (msg.user_name == document.getElementById("username").value){
+        $( 'div.right1' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;right:95px;position:relative;' id='box'>"+msg.message+'</div>' )
+        $( 'div.right' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;left:95px;position:relative;display:none;' id='box'>"+msg.message+'</div>' )
+      } else {
+        $( 'div.right' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;left:95px;position:relative;' id='box'>"+msg.message+'</div>' )
+        $( 'div.right1' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;right:95px;position:relative;display:none;' id='box'>"+msg.message+'</div>' )
+      }   
     }
-    whereBox();
-    $( 'div.right' ).append( '<div class="box" id="box">'+msg.message+'</div>' )
   }
 })
 </script>
@@ -55,8 +62,17 @@ socket.on( 'my response', function( msg ) {
 </div>
 
 <div class="right">
-    <h3>No message yet... Choose a prompt from the sidebar or start a new topic.</h3>
 </div>
+
+<div class="right1">
+</div>
+
+<div class="centering">
+  <h3>
+    No messages yet... Choose a topic from the sidebar or create a new topic!
+  </h3>
+</div>
+
 
 <form action="" method="POST" id="message">
     <input type="text" class="message" placeholder="Enter a message">
