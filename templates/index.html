@@ -31,7 +31,28 @@ socket.on( 'connect', function() {
     } )
     $( 'input.message' ).val( '' ).focus()
   } )
+
+  var form1 = $('#newt').on('submit', function(e){
+    e.preventDefault()
+    let topic_name = $('#prompt').val()
+    socket.emit('new title', {
+      topic: topic_name.trim()
+    })
+    $('#prompt').val('').focus()
+  })
 } )
+
+socket.on('made topic', function(tname){
+  if(typeof tname.topic !== 'undefined'){
+    if (tname.topic.length > 24){
+      ppt = tname.topic.substring(0,24)+"..."
+    } else {
+      ppt = tname.topic
+    }
+    alert(ppt)
+    $('ul:first').append("<li style='margin:0;z-index: 2;color: lightgrey;background-color: #444;display:block;padding: 10px;cursor: pointer;'>"+ppt+"</li>")
+  }
+})
 
 socket.on( 'my response', function( msg ) {
   if( typeof msg.user_name !== 'undefined' ) {
@@ -67,11 +88,13 @@ function toButton(value) {
 }
 </script>
 <div class="left">
-    <h1>Large Mass Debater</h1>
+    <h1 id="logo">Large Mass Debater</h1>
     <ul>
-      {% for topic in topics %}
+      <!-- {% for topic in topics %}
         <li style="list-style-type: none;"><button>{{ topic["topic"] }}</button></li>
-      {% endfor %}
+      {% endfor %} -->
+      <!-- <li class="side">value 1</li>
+      <li class="side">value 2</li> -->
     </ul>
 </div>
 
@@ -115,9 +138,9 @@ function toButton(value) {
 
 <div class="popup" id="popup">
     <h1>Start a New Discussion</h1>
-    <form action="/newTopic" method="POST">
-      <input name="topic" id="prompt" placeholder="Enter topic here...">
-      <input type="submit" name="topic" value="test">
+    <form action="" method="POST" id="newt">
+      <textarea name="topic" form="newt "id="prompt" placeholder="Enter topic here..." required></textarea>
+      <button class="button1" id="confirm" onclick="openPopup()">Submit</button>
     </form>
     <button class="button1" onclick="openPopup()">Cancel</button>
 </div>

@@ -3,8 +3,8 @@ from flask_socketio import SocketIO
 import requests
 import cohere
 from cohere.classify import Example
-import sqlite3
-import firebase
+# import sqlite3
+# import firebase
 
 
 # Custom API key with toxic message board dataset
@@ -83,7 +83,10 @@ def is_toxic(msg):
         return True
     else:
         return False
-    
+
+@socketio.on('new title')
+def handle_topic_event(json, methods=['GET','POST']):
+    socketio.emit('made topic', json, callback=messageReceived)
 
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
@@ -95,13 +98,13 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
         socketio.emit('my response', json, callback=messageReceived)
 
 
-@app.route('/newTopic', methods=["POST"])
-def newTopic():
-    topic = request.form.get("topic")
+# @app.route('/newTopic', methods=["POST"])
+# def newTopic():
+#     topic = request.form.get("topic")
 
-    # firebase.create_thread(topic)
+#     firebase.create_thread(topic)
 
-    return redirect("/thread/"+topic)
+#     return redirect("/thread/"+topic)
     
 
 if __name__ == "__main__":
