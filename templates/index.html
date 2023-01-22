@@ -26,7 +26,7 @@ var colors = ['#222222','#b3595e','#83b2c9','#b3725f','#608aa0','#b58961','#5c58
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 socket.on( 'connect', function() {
-  $('ul:first').empty()
+  $('ol:first').empty()
   socket.emit( 'my event', {
     data: socket.id
   } )
@@ -55,6 +55,7 @@ socket.on( 'connect', function() {
 
 socket.on('made topic', function(tname){
   sid = tname.sid
+  id = tname.id
   if(typeof tname.topic !== 'undefined'){
     var topicid = tname.topic
     if (tname.topic.length > 24){
@@ -62,10 +63,29 @@ socket.on('made topic', function(tname){
     } else {
       ppt = tname.topic
     }
-    $('ul:first').append("<li onclick='loadmsg(id,sid)' id="+topicid+" style='margin:0;z-index: 2;color: lightgrey;background-color: #444;display:block;padding: 10px;cursor: pointer;'>"+ppt.replaceAll('_',' ')+"</li>")
+    $('ol:first').append("<li onmouseover='hoverr(id)' onclick='loadmsg(id,sid)' id="+topicid+" style='margin:0;z-index: 2;color: lightgrey;background-color: #444;display:block;padding: 10px;cursor: pointer;'>"+ppt.replaceAll('_',' ')+"</li>")
     $('#threadid').val(topicid)
   }
 })
+
+function hoverr(id){
+  const node1 = document.getElementById("sdeitm").childNodes;
+  var k = null
+  for(let i=0;i<node1.length;i++){
+    var x = $('ol li').eq(i).attr("id")
+    if(x==id){
+      k=i
+      i=node1.length
+      break
+    }
+  }
+  $('ol li').eq(k).hover(function(){
+    $('ol li').eq(k).css('background-color','#333333')
+  },
+  function(){
+    $('ol li').eq(k).css('background-color','#444444')
+  })
+}
 
 function loadmsg(id,sid){
   const myNode = document.getElementById("right");
@@ -75,6 +95,15 @@ function loadmsg(id,sid){
   const myNode1 = document.getElementById("right1");
   while (myNode1.firstChild) {
     myNode1.removeChild(myNode1.lastChild);
+  }
+  const node2 = document.getElementById("sdeitm").childNodes;
+  for(let i=0;i<node2.length;i++){
+    var x = $('ol li').eq(i).attr("id")
+    if(x==id){
+      $('ol li').eq(i).css('background-color','#333333')
+    }else{
+      $('ol li').eq(i).css('background-color','#444444')
+    }
   }
   socket.emit('get msg',{
     data: sid,
@@ -107,13 +136,13 @@ socket.on( 'my response', function( msg ) {
 </script>
 <div class="left">
     <h1 id="logo">Large Mass Debater</h1>
-    <ul>
+    <ol id="sdeitm">
       <!-- {% for topic in topics %}
         <li style="list-style-type: none;"><button>{{ topic["topic"] }}</button></li>
       {% endfor %} -->
       <!-- <li class="side">value 1</li>
       <li class="side">value 2</li> -->
-    </ul>
+    </ol>
 </div>
 
 <div class="right" id="right">
