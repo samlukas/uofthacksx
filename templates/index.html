@@ -11,6 +11,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 </head>
 <body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connectToRoom',function(data){
+     document.body.innerHTML = '';
+     document.write(data);
+  });
+</script>
 <script>
 var colors = ['#222222','#b3595e','#83b2c9','#b3725f','#608aa0','#b58961','#5c589b','#609358','#8a5b9f','#69afa5','#9d526c'];
 var socket = io.connect('http://' + document.domain + ':' + location.port);
