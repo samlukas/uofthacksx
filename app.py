@@ -42,25 +42,18 @@ url = 'http://127.0.0.1:5000'
 
 @app.route('/')
 def index():
-    # conn = db_connection()
-    # cur = conn.cursor()
-    # count = cur.execute("SELECT COUNT(*) FROM topics")
-
-    # if count != 0:
-    #     topics = conn.execute("SELECT * FROM topics").fetchall()
-    #     conn.close()
-    #     return render_template("index.html", topics=topics)
-
     return render_template("index.html")
 
 
-# @app.route('/thread/<thread_name>')
-# def access_thread(thread_name):
-#     threads = firebase.retrieve_threads()
-#     if thread_name in threads:
-#         posts = firebase.retrieve_posts(thread_name)
-#         for post in posts:
-#             socketio.emit('my response', posts[post])
+@app.route('/thread/<thread_name>')
+def access_thread(thread_name):
+    threads = firebase.retrieve_threads()
+    if thread_name in threads:
+        posts = firebase.retrieve_posts(thread_name)
+        for post in posts:
+            socketio.emit('my response', posts[post])
+
+    return render_template("index.html")
 
    
 
@@ -102,7 +95,7 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 # def newTopic():
 #     topic = request.form.get("topic")
 
-#     firebase.create_thread(topic)
+    thread_id = firebase.create_thread(topic)
 
 #     return redirect("/thread/"+topic)
     
