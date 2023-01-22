@@ -3,6 +3,9 @@ from flask_socketio import SocketIO
 import requests
 import cohere
 from cohere.classify import Example
+import sqlite3
+import firebase
+
 
 # Custom API key with toxic message board dataset
 co = cohere.Client('3E7E98dyvUvoVm59NG3Z9HWyTuUaKdvNOaxx7u8r')
@@ -30,20 +33,45 @@ examples = [
   Example("Aren't that bad", "Benign")
 ]
 
+
 app = Flask(__name__)
 app.config['SECRET'] = "test12345!"
 socketio = SocketIO(app)
 url = 'http://127.0.0.1:5000'
 
+
 @app.route('/')
 def index():
+    # conn = db_connection()
+    # cur = conn.cursor()
+    # count = cur.execute("SELECT COUNT(*) FROM topics")
+
+    # if count != 0:
+    #     topics = conn.execute("SELECT * FROM topics").fetchall()
+    #     conn.close()
+    #     return render_template("index.html", topics=topics)
+
     return render_template("index.html")
+
+
+# @app.route('/thread/<thread_name>')
+# def access_thread(thread_name):
+#     threads = firebase.retrieve_threads()
+#     if thread_name in threads:
+#         posts = firebase.retrieve_posts(thread_name)
+#         for post in posts:
+#             socketio.emit('my response', posts[post])
+
+   
+
 
 def messageReceived(methods=['GET', 'POST']):
     print('Message was received')
 
+
 def messageError(methods=['GET', 'POST']):
     print('Message error: Toxic')
+
 
 def is_toxic(msg):
     response = co.classify(
@@ -51,22 +79,30 @@ def is_toxic(msg):
         inputs=[msg],
         examples=examples
         )
-
-    if response[0].prediction == 'Toxic' and response[0].confidence >= 0.8:
+    if response[0] == ' ' or (response[0].prediction == 'Toxic' and response[0].confidence >= 0.8):
         return True
     else:
         return False
-
+    
 
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     if 'data' in json:
         pass
-    elif is_toxic(json['message']) is True:
-        socketio.emit('my response', {'user_name':'-1','message': 'Toxic'}, callback=messageError)
+    elif 'message' in json and json['message'] != '' and is_toxic(json['message']):
+        socketio.emit('my response', {'user_name':json['user_name'],'message': 'Toxic'}, callback=messageError)    
     else:
         socketio.emit('my response', json, callback=messageReceived)
 
+
+@app.route('/newTopic', methods=["POST"])
+def newTopic():
+    topic = request.form.get("topic")
+
+    # firebase.create_thread(topic)
+
+    return redirect("/thread/"+topic)
+    
 
 if __name__ == "__main__":
     app.run()

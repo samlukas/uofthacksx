@@ -21,13 +21,13 @@ socket.on( 'connect', function() {
   socket.emit( 'my event', {
     data: 'User Connected'
   } )
-  var form = $( 'form' ).on( 'submit', function( e ) {
+  var form = $( '#message' ).on( 'submit', function( e ) {
     e.preventDefault()
     let user_name = $( 'input.username' ).val()
     let user_input = $( 'input.message' ).val()
     socket.emit( 'my event', {
       user_name : user_name,
-      message : user_input
+      message : user_input.trim()
     } )
     $( 'input.message' ).val( '' ).focus()
   } )
@@ -36,10 +36,10 @@ socket.on( 'connect', function() {
 socket.on( 'my response', function( msg ) {
   if( typeof msg.user_name !== 'undefined' ) {
     $( 'h3' ).remove()
-    if (msg.message=='Toxic') {
-      alert("error");
+    if ((msg.message=='Toxic') && (msg.user_name == document.getElementById("username").value)) {
+      alert("Please be more mindful of your language :)");
+    } else if(msg.message=='Toxic') {
     } else {
-      alert("pass");
       var col = colors[msg.user_name];
       if(col == undefined){
         col = "#222222"
@@ -47,18 +47,32 @@ socket.on( 'my response', function( msg ) {
       var len = msg.message.length+"ch";
       if (msg.user_name == document.getElementById("username").value){
         $( 'div.right1' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;right:95px;position:relative;' id='box'>"+msg.message+'</div>' )
-        $( 'div.right' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;left:95px;position:relative;display:none;' id='box'>"+msg.message+'</div>' )
+        $( 'div.right' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;left:95px;position:relative;visibility:hidden;' id='box'>"+msg.message+'</div>' )
       } else {
         $( 'div.right' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;left:95px;position:relative;' id='box'>"+msg.message+'</div>' )
-        $( 'div.right1' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;right:95px;position:relative;display:none;' id='box'>"+msg.message+'</div>' )
-      }   
+        $( 'div.right1' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;right:95px;position:relative;visibility:hidden;' id='box'>"+msg.message+'</div>' )
+      }
     }
   }
 })
-</script>
 
+function toButton(value) {
+  let newButton = document.createElement("button")
+  const left = document.getElementById("left")
+
+  newButton.innerHTML = value
+  newButton.className = value + "-button"
+
+  left.appendChild(newButton)
+}
+</script>
 <div class="left">
     <h1>Large Mass Debater</h1>
+    <ul>
+      {% for topic in topics %}
+        <li style="list-style-type: none;"><button>{{ topic["topic"] }}</button></li>
+      {% endfor %}
+    </ul>
 </div>
 
 <div class="right">
@@ -101,9 +115,9 @@ socket.on( 'my response', function( msg ) {
 
 <div class="popup" id="popup">
     <h1>Start a New Discussion</h1>
-    <form>
-        <textarea id="prompt" rows="4" cols="5" placeholder="What's the topic?"></textarea>
-        <input type="submit" id="confirm" onclick="openPopup()">
+    <form action="/newTopic" method="POST">
+      <input name="topic" id="prompt" placeholder="Enter topic here...">
+      <input type="submit" name="topic" value="test">
     </form>
     <button class="button1" onclick="openPopup()">Cancel</button>
 </div>
