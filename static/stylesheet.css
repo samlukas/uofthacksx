@@ -11,26 +11,28 @@
 }
 
 .box{
-    width: auto;
-    margin: 50px auto;
-    background: #00bfb6;
+    margin-top: 30px;
     padding: 20px;
     text-align: left;
-    font-weight: 900;
+    background-color: #222;
     color: #fff;
-    font-family: arial;
+    font-family: sans-serif;
     position:relative;
+    display: inline block;
+    border-style: solid;
+    border-color: #222;
+}
+
+.boxleft{
+    float: left; 
+}
+
+.boxright{
+    float: right;
 }
 
 #box{
     border-radius: 25px;
-}
-
-li {
-    list-style: none;
-    font-family: Arial;
-    margin: 10px;
-    color: white;
 }
 
 .right{
@@ -65,7 +67,7 @@ input:focus{
     outline-width: 0;
 }
 
-  .button2{
+.button2{
     color: gray;
     left: 25%;
     z-index: 3;
@@ -82,6 +84,13 @@ input:focus{
     background-color: gray;
     color: white;
     transition: 0.2s linear;
+}
+
+h3{
+    font-size: 30px;
+    color: lightgray;
+    font-family: sans-serif;
+    padding-left: 65px;
 }
 
 textarea {
