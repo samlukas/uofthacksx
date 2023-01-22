@@ -12,6 +12,7 @@
 </head>
 <body>
 <script>
+var colors = ['#222222','#b3595e','#83b2c9','#b3725f','#608aa0','#b58961','#5c589b','#609358','#8a5b9f','#69afa5','#9d526c'];
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 socket.on( 'connect', function() {
@@ -24,25 +25,44 @@ socket.on( 'connect', function() {
     let user_input = $( 'input.message' ).val()
     socket.emit( 'my event', {
       user_name : user_name,
-      message : user_input
+      message : user_input.trim()
     } )
     $( 'input.message' ).val( '' ).focus()
   } )
 } )
 
 socket.on( 'my response', function( msg ) {
-  alert(msg.message);
-  console.log( msg );
   if( typeof msg.user_name !== 'undefined' ) {
     $( 'h3' ).remove()
-    if (msg.message=='Toxic') {
-      alert( "error" );
+    if ((msg.message=='Toxic') && (msg.user_name == document.getElementById("username").value)) {
+      alert("Please be more mindful of your language :)");
+    } else if(msg.message=='Toxic') {
     } else {
-      alert("pass");
+      var col = colors[msg.user_name];
+      if(col == undefined){
+        col = "#222222"
+      }
+      var len = msg.message.length+"ch";
+      if (msg.user_name == document.getElementById("username").value){
+        $( 'div.right1' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;right:95px;position:relative;' id='box'>"+msg.message+'</div>' )
+        $( 'div.right' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;left:95px;position:relative;visibility:hidden;' id='box'>"+msg.message+'</div>' )
+      } else {
+        $( 'div.right' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;left:95px;position:relative;' id='box'>"+msg.message+'</div>' )
+        $( 'div.right1' ).append( "<div style='width:"+len+";border:2px solid;border-color:"+col+";max-width: 600px;font-size:18px;background-color:#222;color:#fff;padding:20px;margin-top:25px;bottom:115px;right:95px;position:relative;visibility:hidden;' id='box'>"+msg.message+'</div>' )
+      }
     }
-    $( 'div.right' ).append( '<div class="box" id="box">'+msg.message+'</div>' )
   }
 })
+
+function toButton(value) {
+  let newButton = document.createElement("button")
+  const left = document.getElementById("left")
+
+  newButton.innerHTML = value
+  newButton.className = value + "-button"
+
+  left.appendChild(newButton)
+}
 </script>
 <div class="left">
     <h1>Large Mass Debater</h1>
@@ -54,12 +74,21 @@ socket.on( 'my response', function( msg ) {
 </div>
 
 <div class="right">
-    <h3>No message yet... Choose a prompt from the sidebar or start a new topic.</h3>
 </div>
+
+<div class="right1">
+</div>
+
+<div class="centering">
+  <h3>
+    No messages yet... Choose a topic from the sidebar or create a new topic!
+  </h3>
+</div>
+
 
 <form action="" method="POST" id="message">
     <input type="text" class="message" placeholder="Enter a message">
-    <input type="text" class="username" id="username" value="0" hidden>
+    <input type="text" class="username" id="username" hidden>
     <input type="submit" hidden>
 </form>
 

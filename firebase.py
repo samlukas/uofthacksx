@@ -29,7 +29,7 @@ def create_post(username: str, post_text: str, thread_id: str):
 
     posts_ref.push().set({
         'username': username,
-        'post_text': post_text,
+        'message': post_text,
         'time': str(datetime.datetime.now())
     })
 
