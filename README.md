@@ -1,2 +1,2 @@
-# uofthacksx
-Submission for U of T Hacks X
+## UofT Hacks X: Co//oquia
+Submission for UofT Hacks X
