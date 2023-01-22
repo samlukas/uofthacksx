@@ -18,13 +18,9 @@ socket.on( 'connect', function() {
   socket.emit( 'my event', {
     data: 'User Connected'
   } )
-  var form = $( 'form' ).on( 'submit', function( e ) {
+  var form = $( '#message' ).on( 'submit', function( e ) {
     e.preventDefault()
-    if ('input.username' === undefined){
-      let user_name = 0
-    } else {
-      let user_name = $( 'input.username' ).val()
-    }
+    let user_name = $( 'input.username' ).val()
     let user_input = $( 'input.message' ).val()
     socket.emit( 'my event', {
       user_name : user_name,
@@ -44,14 +40,17 @@ socket.on( 'my response', function( msg ) {
     } else {
       alert("pass");
     }
-    whereBox();
     $( 'div.right' ).append( '<div class="box" id="box">'+msg.message+'</div>' )
   }
 })
 </script>
-
 <div class="left">
     <h1>Large Mass Debater</h1>
+    <ul>
+      {% for topic in topics %}
+        <li style="list-style-type: none;"><button>{{ topic["topic"] }}</button></li>
+      {% endfor %}
+    </ul>
 </div>
 
 <div class="right">
@@ -60,7 +59,7 @@ socket.on( 'my response', function( msg ) {
 
 <form action="" method="POST" id="message">
     <input type="text" class="message" placeholder="Enter a message">
-    <input type="text" class="username" id="username" hidden>
+    <input type="text" class="username" id="username" value="0" hidden>
     <input type="submit" hidden>
 </form>
 
@@ -85,9 +84,9 @@ socket.on( 'my response', function( msg ) {
 
 <div class="popup" id="popup">
     <h1>Start a New Discussion</h1>
-    <form>
-        <textarea id="prompt" rows="4" cols="5" placeholder="What's the topic?"></textarea>
-        <input type="submit" id="confirm" onclick="openPopup()">
+    <form action="/newTopic" method="POST">
+      <input name="topic" id="prompt" placeholder="Enter topic here...">
+      <input type="submit" name="topic" value="test">
     </form>
     <button class="button1" onclick="openPopup()">Cancel</button>
 </div>
