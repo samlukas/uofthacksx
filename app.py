@@ -85,7 +85,9 @@ def handle_topic_event(json, methods=['GET','POST']):
 @socketio.on("get msg")
 def get_msg(json, methods=['GET', 'POST']):
     posts = firebase.retrieve_posts(json['t_id'])
-    if posts is not None:
+    if posts is None:
+        pass
+    else:
         for post in posts:
             socketio.emit('my response', {'user_name':posts[post]['username'], 'message':posts[post]['message']}, to=json['data'])
 
