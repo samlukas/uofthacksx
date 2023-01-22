@@ -26,14 +26,17 @@ var colors = ['#222222','#b3595e','#83b2c9','#b3725f','#608aa0','#b58961','#5c58
 var socket = io.connect('http://' + document.domain + ':' + location.port);
 
 socket.on( 'connect', function() {
+  $('ul:first').empty()
   socket.emit( 'my event', {
-    data: 'User Connected'
+    data: socket.id
   } )
   var form = $( '#message' ).on( 'submit', function( e ) {
     e.preventDefault()
+    let user_thrid = $('input.threadid').val()
     let user_name = $( 'input.username' ).val()
     let user_input = $( 'input.message' ).val()
     socket.emit( 'my event', {
+      thr_id: user_thrid,
       user_name : user_name,
       message : user_input.trim()
     } )
@@ -44,23 +47,40 @@ socket.on( 'connect', function() {
     e.preventDefault()
     let topic_name = $('#prompt').val()
     socket.emit('new title', {
-      topic: topic_name.trim()
+      topic: topic_name.replaceAll(' ','_')
     })
     $('#prompt').val('').focus()
   })
 } )
 
 socket.on('made topic', function(tname){
+  sid = tname.sid
   if(typeof tname.topic !== 'undefined'){
+    var topicid = tname.topic
     if (tname.topic.length > 24){
       ppt = tname.topic.substring(0,24)+"..."
     } else {
       ppt = tname.topic
     }
-    alert(ppt)
-    $('ul:first').append("<li style='margin:0;z-index: 2;color: lightgrey;background-color: #444;display:block;padding: 10px;cursor: pointer;'>"+ppt+"</li>")
+    $('ul:first').append("<li onclick='loadmsg(id,sid)' id="+topicid+" style='margin:0;z-index: 2;color: lightgrey;background-color: #444;display:block;padding: 10px;cursor: pointer;'>"+ppt.replaceAll('_',' ')+"</li>")
+    $('#threadid').val(topicid)
   }
 })
+
+function loadmsg(id,sid){
+  const myNode = document.getElementById("right");
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.lastChild);
+  }
+  const myNode1 = document.getElementById("right1");
+  while (myNode1.firstChild) {
+    myNode1.removeChild(myNode1.lastChild);
+  }
+  socket.emit('get msg',{
+    data: sid,
+    t_id: id
+  })
+}
 
 socket.on( 'my response', function( msg ) {
   if( typeof msg.user_name !== 'undefined' ) {
@@ -84,16 +104,6 @@ socket.on( 'my response', function( msg ) {
     }
   }
 })
-
-function toButton(value) {
-  let newButton = document.createElement("button")
-  const left = document.getElementById("left")
-
-  newButton.innerHTML = value
-  newButton.className = value + "-button"
-
-  left.appendChild(newButton)
-}
 </script>
 <div class="left">
     <h1 id="logo">Large Mass Debater</h1>
@@ -106,10 +116,10 @@ function toButton(value) {
     </ul>
 </div>
 
-<div class="right">
+<div class="right" id="right">
 </div>
 
-<div class="right1">
+<div class="right1" id="right1">
 </div>
 
 <div class="centering">
@@ -122,6 +132,7 @@ function toButton(value) {
 <form action="" method="POST" id="message">
     <input type="text" class="message" placeholder="Enter a message">
     <input type="text" class="username" id="username" hidden>
+    <input type="text" class="threadid" id="threadid" hidden>
     <input type="submit" hidden>
 </form>
 

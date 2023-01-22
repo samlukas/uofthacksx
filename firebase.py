@@ -10,13 +10,12 @@ firebase_admin.initialize_app(cred, {'databaseURL': 'https://uoftthacksx-default
 def create_thread(thread_name: str) -> str:
     """Create a new thread with a random ID, return thread ID
     """
-    thread_id = str(uuid.uuid1().hex)
 
     ref = db.reference('/threads')
-    thread_ref = ref.child(thread_id)
+    thread_ref = ref.child(thread_name)
     thread_ref.set({'thread_name': thread_name, 'time': str(datetime.datetime.now())})
 
-    return thread_id
+    return thread_name
 
 
 def create_post(username: str, post_text: str, thread_id: str):
@@ -39,6 +38,7 @@ def retrieve_posts(thread_id: str):
     """
 
     ref = db.reference('threads/' + thread_id + '/posts')
+
 
     return ref.get()
 

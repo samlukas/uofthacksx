@@ -3,8 +3,8 @@ from flask_socketio import SocketIO
 import requests
 import cohere
 from cohere.classify import Example
-# import sqlite3
-# import firebase
+import sqlite3
+import firebase
 
 
 # Custom API key with toxic message board dataset
@@ -45,19 +45,17 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/thread/<thread_name>')
-def access_thread(thread_name):
-    threads = firebase.retrieve_threads()
-    if thread_name in threads:
-        posts = firebase.retrieve_posts(thread_name)
-        for post in posts:
-            socketio.emit('my response', posts[post])
+# @app.route('/thread/<thread_name>')
+# def access_thread(thread_name):
+#     threads = firebase.retrieve_threads()
+#     if thread_name in threads:
+#         posts = firebase.retrieve_posts(thread_name)
+#         for post in posts:
+#             socketio.emit('my response', posts[post])
 
-    return render_template("index.html")
+#     return render_template("index.html")
 
    
-
-
 def messageReceived(methods=['GET', 'POST']):
     print('Message was received')
 
@@ -77,27 +75,39 @@ def is_toxic(msg):
     else:
         return False
 
+
 @socketio.on('new title')
 def handle_topic_event(json, methods=['GET','POST']):
+    firebase.create_thread(json['topic'])
     socketio.emit('made topic', json, callback=messageReceived)
+
+
+@socketio.on("get msg")
+def get_msg(json, methods=['GET', 'POST']):
+    posts = firebase.retrieve_posts(json['t_id'])
+    if len(posts) != 0:
+        for post in posts:
+            socketio.emit('my response', {'user_name':posts[post]['username'], 'message':posts[post]['message']}, to=json['data'])
+
 
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     if 'data' in json:
-        pass
+        threads = firebase.retrieve_threads()
+        for thread in threads:
+            socketio.emit('made topic', {'topic':threads[thread]["thread_name"],'sid':json['data']}, to=json['data'], callback=messageReceived)
+
     elif 'message' in json and json['message'] != '' and is_toxic(json['message']):
         socketio.emit('my response', {'user_name':json['user_name'],'message': 'Toxic'}, callback=messageError)    
     else:
+        firebase.create_post(json['user_name'], json['message'], json['thr_id'])
         socketio.emit('my response', json, callback=messageReceived)
 
 
 # @app.route('/newTopic', methods=["POST"])
 # def newTopic():
 #     topic = request.form.get("topic")
-
-    thread_id = firebase.create_thread(topic)
-
-#     return redirect("/thread/"+topic)
+#     socketio.emit('connectToRoom')
     
 
 if __name__ == "__main__":
