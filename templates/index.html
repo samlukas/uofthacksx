@@ -63,29 +63,10 @@ socket.on('made topic', function(tname){
     } else {
       ppt = tname.topic
     }
-    $('ol:first').append("<li onmouseover='hoverr(id)' onclick='loadmsg(id,sid)' id="+topicid+" style='margin:0;z-index: 2;color: lightgrey;background-color: #444;display:block;padding: 10px;cursor: pointer;'>"+ppt.replaceAll('_',' ')+"</li>")
+    $('ol:first').append("<li onclick='loadmsg(id,sid)' id="+topicid+" style='margin:0;z-index: 2;color: lightgrey;background-color: #444;display:block;padding: 10px;cursor: pointer;'>"+ppt.replaceAll('_',' ')+"</li>")
     $('#threadid').val(topicid)
   }
 })
-
-function hoverr(id){
-  const node1 = document.getElementById("sdeitm").childNodes;
-  var k = null
-  for(let i=0;i<node1.length;i++){
-    var x = $('ol li').eq(i).attr("id")
-    if(x==id){
-      k=i
-      i=node1.length
-      break
-    }
-  }
-  $('ol li').eq(k).hover(function(){
-    $('ol li').eq(k).css('background-color','#333333')
-  },
-  function(){
-    $('ol li').eq(k).css('background-color','#444444')
-  })
-}
 
 function loadmsg(id,sid){
   const myNode = document.getElementById("right");

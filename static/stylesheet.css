@@ -73,6 +73,10 @@
     cursor: pointer;
 }
 
+.side:hover{
+    background-color: #333;
+}
+
 .centering{
     z-index: 2;
     top: 30%;
